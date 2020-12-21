@@ -21,18 +21,26 @@ public class SubwayApplication {
             selectedMenu = IOHandler.printMainMenu();
 
             if(selectedMenu.equals("1"))
-                doStationManaging();
-            if(selectedMenu.equals("2"))
-                doLineManaging();
-            if(selectedMenu.equals("3"))
-                doSectionManaging();
-            if(selectedMenu.equals("4"))
-                printSubwayMap();
-
+                doPrintShortestPath();
         }
     }
 
-    public DijkstraShortestPath getDijkstraShortestPathByDist() {
+    public void doPrintShortestPath() {
+        String selectedMenu = "0";
+        while(!selectedMenu.equals("B")) {
+            selectedMenu = IOHandler.printPathMenu();
+
+            if(selectedMenu.equals("1")) {
+                printMinimumPathByDist();
+            }
+            if(selectedMenu.equals("2")) {
+                printMinimumPathByTime();
+            }
+            System.out.println();
+        }
+    }
+
+    public DijkstraShortestPath<String, DefaultWeightedEdge> getDijkstraShortestPathByDist() {
         WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
 
         for (Station s : StationRepository.stations()) {
@@ -51,12 +59,10 @@ public class SubwayApplication {
             graph.setEdgeWeight(graph.addEdge(stationName1, stationName2), dist);
         }
 
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
-
-        return dijkstraShortestPath;
+        return new DijkstraShortestPath<String, DefaultWeightedEdge>(graph);
     }
 
-    public DijkstraShortestPath getDijkstraShortestPathByTime() {
+    public DijkstraShortestPath<String, DefaultWeightedEdge> getDijkstraShortestPathByTime() {
         WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
 
         for (Station s : StationRepository.stations()) {
@@ -75,9 +81,7 @@ public class SubwayApplication {
             graph.setEdgeWeight(graph.addEdge(stationName1, stationName2), time);
         }
 
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
-
-        return dijkstraShortestPath;
+        return new DijkstraShortestPath<String, DefaultWeightedEdge>(graph);
     }
 
     public void printMinimumPathByDist() {
@@ -91,7 +95,7 @@ public class SubwayApplication {
 
             if (sourceStation.equals(destStation)) throw new IllegalArgumentException("출발역과 도착역이 동일합니다.");
 
-            DijkstraShortestPath dijkstraShortestPathByDist = getDijkstraShortestPathByDist();
+            DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestPathByDist = getDijkstraShortestPathByDist();
             List<String> shortestPath = dijkstraShortestPathByDist.getPath(sourceStation, destStation).getVertexList();
 
             int distance = 0;
@@ -127,7 +131,7 @@ public class SubwayApplication {
 
             if (sourceStation.equals(destStation)) throw new IllegalArgumentException("출발역과 도착역이 동일합니다.");
 
-            DijkstraShortestPath dijkstraShortestPathByTime = getDijkstraShortestPathByTime();
+            DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestPathByTime = getDijkstraShortestPathByTime();
             List<String> shortestPath = dijkstraShortestPathByTime.getPath(sourceStation, destStation).getVertexList();
 
             int distance = 0;

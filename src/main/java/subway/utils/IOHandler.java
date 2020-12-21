@@ -24,21 +24,34 @@ public class IOHandler {
     }
 
     public static String printMainMenu() {
-        System.out.println("## 메인 화면");
-        System.out.println("1. 역 관리");
-        System.out.println("2. 노선 관리");
-        System.out.println("3. 구간 관리");
-        System.out.println("4. 지하철 노선도 출력");
-        System.out.println("Q. 돌아가기");
+        printString("메인 화면");
+        System.out.println("1. 경로 조회");
+        System.out.println("Q. 종료");
         System.out.println();
 
         while(true) {
-            System.out.println("원하는 기능을 선택하세요.");
-            String menu = scanner.next();
+            String menu = getString("원하는 기능을 선택하세요.");
 
-            System.out.println();
+            String[] strings = {"1", "Q"};
+            boolean check = Validator.checkValidValue(menu, Arrays.asList(strings.clone()));
+            if(check) return menu;
 
-            String[] strings = {"1", "2", "3", "4", "Q"};
+            printError("선택할 수 없는 기능입니다.");
+        }
+    }
+
+    public static String printPathMenu() {
+        printString("경로 기준");
+        System.out.println("1. 최단 거리");
+        System.out.println("2. 최소 시간");
+        System.out.println("B. 돌아가기");
+        System.out.println();
+
+        while(true) {
+            String menu = getString("원하는 기능을 선택하세요.");
+
+
+            String[] strings = {"1", "2", "B"};
             boolean check = Validator.checkValidValue(menu, Arrays.asList(strings.clone()));
             if(check) return menu;
 
