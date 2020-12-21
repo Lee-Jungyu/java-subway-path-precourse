@@ -89,6 +89,8 @@ public class SectionRepository {
             if(sections.get(i).getNextStationDist() == -1) continue;
             if(sections.get(i).getStationName().equals(stationName1) && sections.get(i + 1).getStationName().equals(stationName2))
                 return sections.get(i);
+            if(sections.get(i).getStationName().equals(stationName2) && sections.get(i + 1).getStationName().equals(stationName1))
+                return sections.get(i);
         }
         return null;
     }
