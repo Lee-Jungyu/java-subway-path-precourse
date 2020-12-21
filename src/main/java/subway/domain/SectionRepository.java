@@ -83,4 +83,13 @@ public class SectionRepository {
     public static void sortSections() {
         Collections.sort(sections);
     }
+
+    public static Section getSection(String stationName1, String stationName2) {
+        for(int i = 0; i < sections().size(); i++) {
+            if(sections.get(i).getNextStationDist() == -1) continue;
+            if(sections.get(i).getStationName().equals(stationName1) && sections.get(i + 1).getStationName().equals(stationName2))
+                return sections.get(i);
+        }
+        return null;
+    }
 }

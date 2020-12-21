@@ -1,5 +1,8 @@
 package subway;
 
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.WeightedMultigraph;
 import subway.domain.*;
 import subway.utils.IOHandler;
 import subway.utils.Validator;
@@ -29,6 +32,67 @@ public class SubwayApplication {
             if(selectedMenu.equals("4"))
                 printSubwayMap();
 
+        }
+    }
+
+    public DijkstraShortestPath getDijkstraShortestPathByDist() {
+        WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
+
+        for (Station s : StationRepository.stations()) {
+            graph.addVertex(s.getName());
+        }
+
+        SectionRepository.sortSections();
+        for (int i = 0; i < SectionRepository.sections().size(); i++) {
+            int dist = SectionRepository.sections().get(i).getNextStationDist();
+
+            if (SectionRepository.sections().get(i).getNextStationDist() == -1) continue;
+
+            String stationName1 = SectionRepository.sections().get(i).getStationName();
+            String stationName2 = SectionRepository.sections().get(i + 1).getStationName();
+
+            graph.setEdgeWeight(graph.addEdge(stationName1, stationName2), dist);
+        }
+
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
+
+        return dijkstraShortestPath;
+    }
+
+    public void printMinimumPathByDist() {
+
+        try {
+            String sourceStation = IOHandler.getString("출발역을 입력하세요.");
+            if (!Validator.checkUsingStationName(sourceStation)) throw new IllegalArgumentException("존재하지 않는 역입니다.");
+
+            String destStation = IOHandler.getString("도착역을 입력하세요.");
+            if (!Validator.checkUsingStationName(destStation)) throw new IllegalArgumentException("존재하지 않는 역입니다.");
+
+            if (sourceStation.equals(destStation)) throw new IllegalArgumentException("출발역과 도착역이 동일합니다.");
+
+            DijkstraShortestPath dijkstraShortestPathByDist = getDijkstraShortestPathByDist();
+            List<String> shortestPath = dijkstraShortestPathByDist.getPath(sourceStation, destStation).getVertexList();
+
+            int distance = 0;
+            int time = 0;
+
+            for(int i = 0; i < shortestPath.size() - 1; i++) {
+                Section section = SectionRepository.getSection(shortestPath.get(i), shortestPath.get(i + 1));
+                distance += section.getNextStationDist();
+                time += section.getNextStationTime();
+            }
+
+            IOHandler.printString("조회 결과");
+            IOHandler.printInfo("---");
+            IOHandler.printInfo("총 거리: " + distance + "km");
+            IOHandler.printInfo("총 소요 시간: " + time + "분");
+            IOHandler.printInfo("---");
+            for(String stationName : shortestPath) {
+                IOHandler.printInfo(stationName);
+            }
+
+        } catch (IllegalArgumentException e) {
+            IOHandler.printError(e.getMessage());
         }
     }
 
