@@ -11,17 +11,14 @@ import java.util.List;
 
 public class SubwayApplication {
 
-    private IOHandler ioHandler;
-
     public SubwayApplication() {
-        this.ioHandler = new IOHandler();
     }
 
     public void startApplication() {
         setInitialize();
         String selectedMenu = "0";
         while(!selectedMenu.equals("Q")) {
-            selectedMenu = ioHandler.printMainMenu();
+            selectedMenu = IOHandler.printMainMenu();
 
             if(selectedMenu.equals("1"))
                 doStationManaging();
@@ -157,7 +154,7 @@ public class SubwayApplication {
     }
 
     public void doStationManaging() {
-        String selectedMenu = ioHandler.printStationMenu();
+        String selectedMenu = IOHandler.printStationMenu();
 
         if(selectedMenu.equals("1"))
             insertStation();
@@ -168,7 +165,7 @@ public class SubwayApplication {
     }
 
     public void doLineManaging() {
-        String selectedMenu = ioHandler.printLineMenu();
+        String selectedMenu = IOHandler.printLineMenu();
 
         if(selectedMenu.equals("1"))
             insertLine();
@@ -179,7 +176,7 @@ public class SubwayApplication {
     }
 
     public void doSectionManaging() {
-        String selectedMenu = ioHandler.printSectionMenu();
+        String selectedMenu = IOHandler.printSectionMenu();
 
         if(selectedMenu.equals("1"))
             insertSection();
@@ -196,7 +193,7 @@ public class SubwayApplication {
             StationRepository.addStation(new Station(stationName));
             IOHandler.printInfo("지하철 역이 등록되었습니다.\n");
         } catch(IllegalArgumentException e) {
-            ioHandler.printError(e.getMessage());
+            IOHandler.printError(e.getMessage());
         }
     }
 
@@ -209,7 +206,7 @@ public class SubwayApplication {
             StationRepository.deleteStation(stationName);
             IOHandler.printInfo("지하철 역이 삭제되었습니다.");
         } catch(IllegalArgumentException e) {
-            ioHandler.printError(e.getMessage());
+            IOHandler.printError(e.getMessage());
         }
     }
 
@@ -323,7 +320,7 @@ public class SubwayApplication {
 
             IOHandler.printInfo("구간이 등록되었습니다.\n");
         } catch(IllegalArgumentException e) {
-            ioHandler.printError(e.getMessage());
+            IOHandler.printError(e.getMessage());
         }
     }
 

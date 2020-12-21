@@ -46,7 +46,7 @@ public class IOHandler {
         }
     }
 
-    public String printStationMenu() {
+    public static String printStationMenu() {
         System.out.println("## 역 관리 화면");
         System.out.println("1. 역 등록");
         System.out.println("2. 역 삭제");
@@ -69,7 +69,7 @@ public class IOHandler {
         }
     }
 
-    public String printLineMenu() {
+    public static String printLineMenu() {
         System.out.println("## 노선 관리 화면");
         System.out.println("1. 노선 등록");
         System.out.println("2. 노선 삭제");
@@ -91,7 +91,7 @@ public class IOHandler {
         }
     }
 
-    public String printSectionMenu() {
+    public static String printSectionMenu() {
         System.out.println("## 구간 관리 화면");
         System.out.println("1. 구간 등록");
         System.out.println("2. 구간 삭제");
