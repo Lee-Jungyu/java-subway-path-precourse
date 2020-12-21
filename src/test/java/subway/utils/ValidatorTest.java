@@ -66,7 +66,7 @@ public class ValidatorTest {
         Line line = new Line("2호선");
         LineRepository.addLine(line);
         Section section = new Section(station, line, 1);
-        SectionRepository.addSection(section);
+        SectionRepository.addSection(section, 0, 0, 0, 0);
 
         boolean check = Validator.checkStationInLine(stationName);
         Assertions.assertEquals(check, true);
@@ -81,7 +81,7 @@ public class ValidatorTest {
         Line line = new Line("2호선");
         LineRepository.addLine(line);
         Section section = new Section(station, line, 1);
-        SectionRepository.addSection(section);
+        SectionRepository.addSection(section, 0, 0, 0, 0);
 
         boolean check = Validator.checkStationInLine(stationName2);
         Assertions.assertEquals(check, false);
@@ -96,7 +96,7 @@ public class ValidatorTest {
         Line line = new Line(lineName);
         LineRepository.addLine(line);
         Section section = new Section(station, line, 1);
-        SectionRepository.addSection(section);
+        SectionRepository.addSection(section, 0, 0, 0, 0);
 
         boolean check = Validator.checkStationInLine(stationName, lineName);
         Assertions.assertEquals(check, true);
@@ -112,7 +112,7 @@ public class ValidatorTest {
         Line line = new Line(lineName);
         LineRepository.addLine(line);
         Section section = new Section(station, line, 1);
-        SectionRepository.addSection(section);
+        SectionRepository.addSection(section, 0, 0, 0, 0);
 
         boolean check = Validator.checkStationInLine(stationName2, lineName);
         Assertions.assertEquals(check, false);

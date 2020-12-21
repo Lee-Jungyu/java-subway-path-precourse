@@ -11,8 +11,14 @@ public class SectionRepository {
         return sections;
     }
 
-    public static void addSection(Section section) {
+    public static void addSection(Section section, int prevStationDist, int prevStatinTime, int nextStationDist, int nextStationTime) {
         for(Section s : sections) {
+            if(s.getLineName().equals(section.getLineName()) && s.getOrder() == section.getOrder() - 1) {
+                s.setNextStationDistAndTime(prevStationDist, prevStatinTime);
+            }
+            if(s.getLineName().equals(section.getLineName()) && s.getOrder() == section.getOrder()) {
+                s.setPrevStationDistAndTime(nextStationDist, nextStationTime);
+            }
             if(s.getLineName().equals(section.getLineName()) && s.getOrder() >= section.getOrder()) {
                 s.increaseOrder();
             }

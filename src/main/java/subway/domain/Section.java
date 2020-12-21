@@ -5,10 +5,20 @@ public class Section implements Comparable<Section> {
     Line line;
     int order;
 
+    int prevStationDist;
+    int prevStationTime;
+    int nextStationDist;
+    int nextStationTime;
+
     public Section(Station station, Line line, int order) {
         this.station = station;
         this.line = line;
         this.order = order;
+
+        this.prevStationDist = -1;
+        this.prevStationTime = -1;
+        this.nextStationDist = -1;
+        this.nextStationTime = -1;
     }
 
     public Station getStation() {
@@ -37,6 +47,24 @@ public class Section implements Comparable<Section> {
 
     public void decreaseOrder() {
         order--;
+    }
+
+    public int getPrevStationDist() { return prevStationDist; }
+
+    public int getPrevStationTime() { return prevStationTime; }
+
+    public int getNextStationDist() { return nextStationDist; }
+
+    public int getNextStationTime() { return nextStationTime; }
+
+    public void setPrevStationDistAndTime(int dist, int time) {
+        this.prevStationDist = dist;
+        this.prevStationTime = time;
+    }
+
+    public void setNextStationDistAndTime(int dist, int time) {
+        this.nextStationDist = dist;
+        this.nextStationTime = time;
     }
 
     @Override

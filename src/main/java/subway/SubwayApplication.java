@@ -118,8 +118,15 @@ public class SubwayApplication {
 
             Section section1 = new Section(firstStation, line, 1);
             Section section2 = new Section(lastStation, line, 2);
-            SectionRepository.addSection(section1);
-            SectionRepository.addSection(section2);
+
+            String dist = IOHandler.getString("두 역사이의 거리를 입력하세요.");
+            if (!Validator.checkIntegerType(dist)) throw new IllegalArgumentException("거리는 숫자만 입력 가능합니다.");
+
+            String time = IOHandler.getString("두 역사이의 소요 시간을 입력하세요.");
+            if (!Validator.checkIntegerType(time)) throw new IllegalArgumentException("소요시간 숫자만 입력 가능합니다.");
+
+            SectionRepository.addSection(section1, -1, -1, Integer.parseInt(dist), Integer.parseInt(time));
+            SectionRepository.addSection(section2,Integer.parseInt(dist), Integer.parseInt(time), -1, -1);
 
             IOHandler.printInfo("지하철 노선이 등록되었습니다\n");
 
@@ -167,11 +174,28 @@ public class SubwayApplication {
             if (!Validator.checkIntegerRange(Integer.parseInt(order), minNumber, maxNumber))
                 throw new IllegalArgumentException(minNumber + "이상 " + maxNumber + "이하의 숫자만 가능합니다.");
 
+            String prevStationDist = IOHandler.getString("이전 역 까지의 거리를 입력하세요.");
+            if (!Validator.checkIntegerType(prevStationDist)) throw new IllegalArgumentException("거리는 숫자만 입력 가능합니다.");
+
+            String prevStationTime = IOHandler.getString("이전 역 까지의 소요 시간을 입력하세요.");
+            if (!Validator.checkIntegerType(prevStationTime)) throw new IllegalArgumentException("소요시간은 숫자만 입력 가능합니다.");
+
+            String nextStationDist = IOHandler.getString("다음 역 까지의 거리를 입력하세요.");
+            if (!Validator.checkIntegerType(nextStationDist)) throw new IllegalArgumentException("거리는 숫자만 입력 가능합니다.");
+
+            String nextStationTime = IOHandler.getString("다음 역 까지의 소요 시간을 입력하세요.");
+            if (!Validator.checkIntegerType(nextStationTime)) throw new IllegalArgumentException("소요시간은 숫자만 입력 가능합니다.");
+
+            int pStationDist = Integer.parseInt(prevStationDist);
+            int pStationTime = Integer.parseInt(prevStationTime);
+            int nStationDist = Integer.parseInt(nextStationTime);
+            int nStationTime = Integer.parseInt(nextStationTime);
+
             Station station = StationRepository.getStationByName(stationName);
             Line line = LineRepository.getLineByName(lineName);
 
             Section section = new Section(station, line, Integer.parseInt(order));
-            SectionRepository.addSection(section);
+            SectionRepository.addSection(section, pStationDist, pStationTime, nStationDist, nStationTime);
 
             IOHandler.printInfo("구간이 등록되었습니다.\n");
         } catch(IllegalArgumentException e) {
@@ -241,24 +265,24 @@ public class SubwayApplication {
         LineRepository.addLine(line3);
 
         Section section1 = new Section(station1, line1, 1);
-        SectionRepository.addSection(section1);
+        SectionRepository.addSection(section1,  -1,  -1,  2,  3);
         Section section2 = new Section(station2, line1, 2);
-        SectionRepository.addSection(section2);
+        SectionRepository.addSection(section2, 2, 3, 2, 3);
         Section section3 = new Section(station3, line1, 3);
-        SectionRepository.addSection(section3);
+        SectionRepository.addSection(section3, 2, 3, -1, -1);
         Section section4 = new Section(station1, line2, 1);
-        SectionRepository.addSection(section4);
+        SectionRepository.addSection(section4, -1, -1, 3, 2);
         Section section5 = new Section(station4, line2, 2);
-        SectionRepository.addSection(section5);
+        SectionRepository.addSection(section5, 3, 2, 6, 5);
         Section section6 = new Section(station5, line2, 3);
-        SectionRepository.addSection(section6);
+        SectionRepository.addSection(section6, 6, 5, 1, 1);
         Section section7 = new Section(station7, line2, 4);
-        SectionRepository.addSection(section7);
+        SectionRepository.addSection(section7, 1, 1, -1, -1);
         Section section8 = new Section(station2, line3, 1);
-        SectionRepository.addSection(section8);
+        SectionRepository.addSection(section8, -1, -1, 2, 8);
         Section section9 = new Section(station5, line3, 2);
-        SectionRepository.addSection(section9);
+        SectionRepository.addSection(section9, 2, 8, 10, 3);
         Section section10 = new Section(station6, line3, 3);
-        SectionRepository.addSection(section10);
+        SectionRepository.addSection(section10, 10, 3, -1, -1);
     }
 }
