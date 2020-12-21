@@ -20,7 +20,17 @@ public class StationRepository {
         return stations.removeIf(station -> Objects.equals(station.getName(), name));
     }
 
-    public static void deleteAll() {
-        stations.clear();
+    public static int findStation(String name) {
+        for(int i = 0; i < stations.size(); i++) {
+            if(stations.get(i).getName().equals(name))
+                return i;
+        }
+        return -1;
+    }
+
+    public static Station getStationByName(String stationName) {
+        int idx = findStation(stationName);
+        if(idx == -1) return null;
+        return stations.get(idx);
     }
 }
